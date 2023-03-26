@@ -1,13 +1,15 @@
 {% extends 'customer/base.html' %}
 {% block  content %}
     <div class="container-fluid" id="front-page">
+        
         <div class="row justify-content-center">
-            <div class="col-md-6 col-sm-12 p-4 my-5 text-center shadow bg-body rounded">
-                <h1>Coders Cafe Online Order</h1>
+            <h3 class='bg-dark'> {% now "h:m" %} on the {% now "jS \o\f F" %}</h3>
+            <div class="col-md-2 col-sm-12 p-4 my-5 text-center shadow rounded text-white bg-primary">
+                <h2>Coders Cafe <hr> Online Order</h2>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="card col-md-5 col-sm-12 p-4 text-center">
+            <div class="card col-md-2 col-sm-12 p-4 text-center bg-secondary">
                 <h2>Place an Order!</h2>
                     <a href="{% url 'order' %}" class="btn btn-primary">Order Now!</a>
                 </div>

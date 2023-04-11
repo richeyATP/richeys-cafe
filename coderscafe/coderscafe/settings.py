@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.fly.dev']  # <-- Updated!
 
+CSRF_TRUSTED_ORIGINS = ['https://*.fly.dev']  # <-- Updated!
 
 # Application definition
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+    'whitenoise.runserver_nostatic',  # <-- Updated!
     'django.contrib.staticfiles',
 ]
 
@@ -64,7 +66,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
- 
+ 'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Updated!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -168,4 +170,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # <-- Updated!
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # <-- Updated!
+
+

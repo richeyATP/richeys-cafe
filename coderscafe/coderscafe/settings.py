@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,13 +39,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 INSTALLED_APPS = [
-
     'cafe',
     'customer',
 
     'crispy_forms',
     'crispy_bootstrap4',
-
 
     'allauth',
     'allauth.account',
@@ -57,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+
+
     'django.contrib.staticfiles',
 ]
 
@@ -64,6 +64,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #add whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -141,6 +142,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') ##specify static root
+
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

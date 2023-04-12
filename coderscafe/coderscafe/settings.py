@@ -24,11 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.fly.dev']  # <-- Updated!
+ALLOWED_HOSTS = []
 
-CSRF_TRUSTED_ORIGINS = ['https://*.fly.dev']  # <-- Updated!
 
 # Application definition
 
@@ -58,7 +57,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
-    'whitenoise.runserver_nostatic',  # <-- Updated!
     'django.contrib.staticfiles',
 ]
 
@@ -66,14 +64,12 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
- 'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Updated!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'coderscafe.urls'
@@ -144,10 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -166,12 +162,3 @@ LOGIN_URL = '/accounts/login/'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-
-STATIC_URL = 'static/'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # <-- Updated!
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # <-- Updated!
-
-

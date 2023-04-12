@@ -11,6 +11,10 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+from whitenoise import WhiteNoise #added
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'coderscafe.settings')
 
 application = get_wsgi_application()
+
+application = WhiteNoise(application) #added

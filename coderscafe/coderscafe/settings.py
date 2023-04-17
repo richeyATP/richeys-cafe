@@ -13,23 +13,47 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+# Import
+import cloudinary
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
+
+# Config
+cloudinary.config(
+  cloud_name = "dv2j8mvwm",
+  api_key = "116132274255424",
+  api_secret = "BYNrEvjM0WI44LfL0mflNCDC38M",
+  secure = True
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7'
+
+# SECURITY WARNING: keep the secret key used in production secret - set it via an environment variable!
+# SECRET_KEY = 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7'
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-#4)+0crrh8f*if)_vaq$mifug*8v8ui(j)0ty899ljzaw&$je7')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
+# The value of the DEBUG will be True by default, but will only be False if the value of the DJANGO_DEBUG environment variable is set to False. 
+# Please note that environment variables are strings and not Python types. We therefore need to compare strings. 
+# The only way to set the DEBUG variable to False is to actually set it to the string False.
+# You can set the environment variable to "False" on Linux by issuing the following command:
+# export DJANGO_DEBUG='False'
+
+SESSION_COOKIE_SECURE = True
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.fly.dev']  # <-- Updated!
-
 CSRF_TRUSTED_ORIGINS = ['https://*.fly.dev']  # <-- Updated!
-
 
 # Application definition
 
@@ -44,6 +68,8 @@ INSTALLED_APPS = [
     'cafe',
     'customer',
 
+    'cloudinary',
+
     'crispy_forms',
     'crispy_bootstrap4',
 
@@ -57,10 +83,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
-
     'django.contrib.staticfiles',
-  
-  'whitenoise.runserver_nostatic',
 ]
 
 SITE_ID = 1
@@ -107,6 +130,11 @@ DATABASES = {
     }
 }
 
+# Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -126,36 +154,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') ##specify static root
-
-
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -165,12 +182,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_ADAPTER = 'cafe.account_adapter.NoNewUsersAccountAdapter'
-
-
 LOGIN_REDIRECT_URL = 'dashboard'
-
 LOGIN_URL = '/accounts/login/'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
-
 CRISPY_TEMPLATE_PACK = "bootstrap4"
